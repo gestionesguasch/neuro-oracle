@@ -1,0 +1,30 @@
+name: Ejecutar Oracle
+
+on:
+  schedule:
+    - cron: "*/1 * * * *"   # cada minuto
+  workflow_dispatch:        # permite ejecutarlo manualmente
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+
+    - name: Instalar dependencias
+      run: npm install
+
+    - name: Ejecutar script
+      env:
+        RPC_URL: ${{ secrets.RPC_URL }}
+        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+        CONTRACT_ADDRESS: ${{ secrets.CONTRACT_ADDRESS }}
+        INFLACION_ANUAL: ${{ secrets.INFLACION_ANUAL }}
+      run: node updateIndex.js
