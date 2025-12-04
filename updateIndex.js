@@ -22,6 +22,9 @@ async function main() {
       : 0.022
   ); // 2.2% anual
 
+  console.log("process.env.INFLACION_ANUAL =", process.env.INFLACION_ANUAL);
+  console.log("inflacionAnual (Number) =", inflacionAnual);
+
   // Asumimos que este script se ejecuta cada 10 minutos.
   //  - 60 / 10 = 6 intervalos por hora
   //  - 24 * 6 = 144 intervalos por día
