@@ -14,28 +14,21 @@ async function main() {
   const oldIndex = await contract.priceIndex();
   console.log("priceIndex actual:", oldIndex.toString());
 
-  // 3) Calcular factor por intervalo a partir de INFLACION_ANUAL
-  //    Si no se define INFLACION_ANUAL en .env, usamos por defecto 0.022 (2,2%)
-  const inflacionAnual = Number(
-    process.env.INFLACION_ANUAL !== undefined
-      ? process.env.INFLACION_ANUAL
-      : 0.022
-  ); // 2.2% anual
-
-  console.log("process.env.INFLACION_ANUAL =", process.env.INFLACION_ANUAL);
+  // 3) Calcular factor por intervalo a partir de inflación anual FIJA (2.2%)
+  const inflacionAnual = 0.022; // 2.2% anual FIJA
   console.log("inflacionAnual (Number) =", inflacionAnual);
 
   // Asumimos que este script se ejecuta cada 10 minutos.
-  //  - 60 / 10 = 6 intervalos por hora
-  //  - 24 * 6 = 144 intervalos por día
-  //  - 365 * 144 = 52.560 intervalos por año
+  // 60 / 10 = 6 intervalos por hora
+  // 24 * 6 = 144 intervalos por día
+  // 365 * 144 = 52.560 intervalos por año
   const intervalosPorHora = 60 / 10; // cada 10 minutos
   const intervalosPorDia = 24 * intervalosPorHora;
-  const intervalosPorAnio = 365 * intervalosPorDia;
+  const intervalosPorAño = 365 * intervalosPorDia;
 
   // Factor de crecimiento por intervalo (compuesto):
-  // (1 + inflacionAnual)^(1 / intervalosPorAnio)
-  const factorPorIntervalo = Math.pow(1 + inflacionAnual, 1 / intervalosPorAnio);
+  // (1 + inflacionAnual)^(1 / intervalosPorAño)
+  const factorPorIntervalo = Math.pow(1 + inflacionAnual, 1 / intervalosPorAño);
   console.log("Factor por intervalo:", factorPorIntervalo);
 
   // 4) Calcular nuevo índice en BigInt
